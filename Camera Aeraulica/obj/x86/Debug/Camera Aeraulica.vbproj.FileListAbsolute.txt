@@ -1,0 +1,100 @@
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Interop.VBIDE.dll
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\bin\Debug\Camera Aeraulica.pdb
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\bin\Debug\Camera Aeraulica.xml
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form1.resources
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Resources.resources
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup.resources
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+C:\Users\Massimiliano\documents\visual studio 2010\Projects\Camera Aeraulica\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.PopUp2.resources
+S:\Laboratorio\bancoprove\Cassone ALMES\Camera Aeraulica\obj\x86\Debug\Interop.VBIDE.dll
+S:\Laboratorio\bancoprove\Cassone ALMES\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+S:\Laboratorio\bancoprove\Cassone ALMES\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+S:\Laboratorio\bancoprove\Cassone ALMES\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Interop.VBIDE.dll
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\ResolveAssemblyReference.cache
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form1.resources
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Resources.resources
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.PopUp.resources
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.PopUp2.resources
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\GenerateResource.read.1.tlog
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\GenerateResource.write.1.tlog
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+S:\Laboratorio\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form2.resources
+L:\bancoprove\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+L:\bancoprove\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe
+L:\bancoprove\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.pdb
+L:\bancoprove\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.xml
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\ResolveAssemblyReference.cache
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form1.resources
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Resources.resources
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_tipo_prova.resources
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_dati_incompleti.resources
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\GenerateResource.read.1.tlog
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\GenerateResource.write.1.tlog
+L:\bancoprove\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.xml
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form1.resources
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Resources.resources
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_tipo_prova.resources
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_dati_incompleti.resources
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\bancoprove\Documents\camera di prova\Camera Aeraulica\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Documents and Settings\bancoprove\Desktop\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+C:\Documents and Settings\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+C:\Documents and Settings\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+C:\Documents and Settings\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+C:\Documents and Settings\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\bin\Debug\Camera Aeraulica.xml
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form1.resources
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Resources.resources
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_tipo_prova.resources
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_dati_incompleti.resources
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbprojResolveAssemblyReference.cache
+C:\Users\bancoprove\Desktop\camera di prova\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.GenerateResource.Cache
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\bin\Debug\Camera Aeraulica.pdb
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\bin\Debug\Camera Aeraulica.xml
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbprojResolveAssemblyReference.cache
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Form1.resources
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Resources.resources
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_tipo_prova.resources
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera_Aeraulica.Popup_dati_incompleti.resources
+C:\Users\bancoprove\Desktop\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.GenerateResource.Cache
+L:\bancoprove\camera di prova REV03\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb

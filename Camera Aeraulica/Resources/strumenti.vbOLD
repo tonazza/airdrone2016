@@ -1,0 +1,931 @@
+﻿Option Explicit On
+Option Strict On
+
+Imports System.IO.Ports
+Imports System.Net.Sockets
+Imports System.Math
+
+Public Class strumenti
+
+
+    Public Class c_tachimetro
+        'TACHIMETRO RPM CARLO GAVAZZI UDM40
+
+        Private porta As SerialPort
+
+        Public Function inizializza(ByVal nome_porta As String) As Boolean
+            ' create a new SerialPort object with default settings.
+
+            Me.porta = New SerialPort()
+
+            ' set the appropriate properties
+            porta.PortName = nome_porta
+            porta.BaudRate = 9600
+            porta.Parity = Parity.None
+            porta.StopBits = StopBits.One
+            porta.DataBits = 8
+            porta.ReadTimeout = 300
+            porta.WriteTimeout = 300
+
+            Try
+                'open the port
+                porta.Open()
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore apertura porta seriale tachimetro")
+                Return False
+            End Try
+        End Function
+
+        Public Function rpm() As UInteger
+
+            'LETTURA TACHIMETRO RPM CARLO GAVAZZI UDM40
+            Dim stringa_richiesta, stringa_risposta As Byte()
+            Dim MSB, LSB As Byte
+
+
+            'la stringa da inviare HEX è: 01 03 10 00 00 01 80 CA
+            stringa_richiesta = {&H1, &H3, &H10, &H0, &H0, &H1, &H80, &HCA}
+            'inizializzo la stringa risposta
+            stringa_risposta = {&H0, &H0, &H0, &H0, &H0, &H0, &H0}
+
+            Try
+                porta.Write(stringa_richiesta, 0, 8)
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore scrittura su porta seriale tachimetro")
+            End Try
+
+            Try
+
+                porta.Read(stringa_risposta, 0, 7)
+                ' i byte che contengono la lettura sono il 4° e il 5°
+                MSB = stringa_risposta(3)
+                LSB = stringa_risposta(4)
+                Return CUInt(MSB * 256 + LSB) ' converto i due byte in intero
+
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore risposta da tachimetro")
+                Return 0
+            End Try
+
+        End Function
+
+        Public Function termina() As Boolean
+            Try
+                porta.Close()
+                Return True
+            Catch ex As Exception
+
+                Form1.PopolaDB_error("Errore chiusura porta seriale tachimetro")
+                Return False
+            End Try
+
+        End Function
+
+    End Class
+
+    Public Class c_analogout
+
+        'Interfaccia ANALOG OUT PHIDGETS
+
+
+        Private WithEvents dispositivo As Phidgets.Analog
+        Private p_tensione_attuale As Double
+        Private Const indice As Integer = 3 'utilizzo uscita A3 con tensione 0-10V
+
+
+        ReadOnly Property tensione_attuale() As Double
+            Get
+                tensione_attuale = p_tensione_attuale
+            End Get
+        End Property
+
+        ReadOnly Property percentuale_attuale() As Double
+            Get
+                percentuale_attuale = p_tensione_attuale * 10
+            End Get
+        End Property
+
+        Public Function inizializza() As Boolean
+
+            Try
+                dispositivo = New Phidgets.Analog
+                dispositivo.open()
+
+                'devo inserire un ritardo altrimenti non va l'interfaccia
+                System.Threading.Thread.Sleep(500)
+
+                dispositivo.outputs(indice).Voltage = 0
+                dispositivo.outputs(indice).Enabled = False
+                Return True
+
+            Catch ex As Phidgets.PhidgetException
+                Form1.PopolaDB_error("Errore interfaccia analogica - ventilatore ausiliario")
+                Return False
+
+            End Try
+
+        End Function
+
+        Public Function abilita() As Boolean
+
+            Try
+                dispositivo.outputs(indice).Enabled = True
+                Return True
+
+            Catch ex As Phidgets.PhidgetException
+                Form1.PopolaDB_error("Errore interfaccia analogica - ventilatore ausiliario")
+                Return False
+
+            End Try
+
+        End Function
+
+        Public Function disabilita() As Boolean
+
+            Try
+                dispositivo.outputs(indice).Enabled = False
+                Return True
+
+            Catch ex As Phidgets.PhidgetException
+                Form1.PopolaDB_error("Errore interfaccia analogica - ventilatore ausiliario")
+                Return False
+
+            End Try
+
+        End Function
+
+        Public Function imposta_tensione_2(ByVal volts As Double) As Boolean
+
+            If volts < 0 Or volts > 10 Then 'se il valore di tensione è fuori dai limiti lo ignoro
+                Form1.PopolaDB_error("Interfaccia Vaux - valore di tensione non valido (ignorato)")
+                Return True
+            Else
+                Try
+                    dispositivo.outputs(2).Voltage = volts
+                    'p_tensione_attuale = volts
+                    Return True
+                Catch ex As Exception
+                    Form1.PopolaDB_error("Errore interfaccia analogica - ventilatore ausiliario")
+                    Return False
+                End Try
+
+            End If
+
+        End Function
+
+
+        Public Function imposta_tensione(ByVal volts As Double) As Boolean
+
+            If volts < 0 Or volts > 10 Then 'se il valore di tensione è fuori dai limiti lo ignoro
+                Form1.PopolaDB_error("Interfaccia Vaux - valore di tensione non valido (ignorato)")
+                Return True
+            Else
+                Try
+                    dispositivo.outputs(indice).Voltage = volts
+                    p_tensione_attuale = volts
+                    Return True
+                Catch ex As Exception
+                    Form1.PopolaDB_error("Errore interfaccia analogica - ventilatore ausiliario")
+                    Return False
+                End Try
+
+            End If
+
+        End Function
+
+        Public Function imposta_percentuale(ByVal percentuale As Double) As Boolean
+            Return imposta_tensione(percentuale / 10)
+        End Function
+
+        Public Function azzera_uscita() As Boolean
+            Return imposta_tensione(0)
+        End Function
+
+        Public Function termina() As Boolean
+
+            Try
+                dispositivo.outputs(indice).Enabled = False
+                dispositivo.close()
+                dispositivo = Nothing
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore interfaccia analogica - ventilatore ausiliario")
+                Return False
+            End Try
+
+        End Function
+
+    End Class
+
+    Public Class c_stazione_barometrica
+
+        'STAZIONE BAROMETRICA COMET MODELLO T7510 VIA MODBUS/TCP
+        Private dispositivo As TcpClient
+        Private p_temperatura, p_umidità, p_pressione As Double
+
+        ReadOnly Property temperatura() As Double
+            Get
+                temperatura = p_temperatura
+            End Get
+        End Property
+
+        ReadOnly Property umidità() As Double
+            Get
+                umidità = p_umidità
+            End Get
+        End Property
+
+        ReadOnly Property pressione() As Double
+            Get
+                pressione = p_pressione
+            End Get
+        End Property
+
+        Public Function inizializza(ByVal indirizzoIP As String) As Boolean
+
+            dispositivo = New System.Net.Sockets.TcpClient()
+
+            Try
+                dispositivo.Connect(indirizzoIP, 502)
+                Return True
+            Catch ex As Exception
+                'Ok_Barometro = 0
+                Form1.PopolaDB_error("Errore di connessione con stazione barometrica")
+                Return False
+                'Form1.TabControl1.SelectTab(4)
+            End Try
+
+        End Function
+
+        Private Function LeggiBarometroTCP(ByVal Addr As Integer, ByRef Reg1 As String, ByRef Reg2 As String) As Boolean
+
+            Dim SendmodbusWord As String = Chr(0) & Chr(0) & Chr(0) & Chr(0) & Chr(0) & Chr(6) & _
+                Chr(0) & Chr(3) & Chr(Addr \ 256) & Chr(Addr Mod 256) & Chr(2 \ 256) & Chr(2 Mod 256)
+
+            Try
+                Dim serverStream As NetworkStream = dispositivo.GetStream()
+                Dim outStream As Byte() = System.Text.Encoding.Default.GetBytes(SendmodbusWord)
+                serverStream.Write(outStream, 0, outStream.Length)
+                serverStream.Flush()
+                Dim inStream(8192) As Byte
+                Dim cnt As Long
+                serverStream.Read(inStream, 0, CInt(dispositivo.ReceiveBufferSize))
+                For cnt = 1 To 20
+
+                    If cnt = 10 Then Reg1 = ((inStream(9) * 256) + inStream(10)).ToString
+                    If cnt = 12 Then Reg2 = ((inStream(11) * 256) + inStream(12)).ToString
+
+                Next cnt
+                Return True
+
+            Catch ex As Exception
+
+                Form1.PopolaDB_error("Errore lettura dati Barometro")
+                Return False
+            End Try
+
+
+        End Function
+
+        Public Function LeggiDati() As Boolean
+
+            'LETTURA TEMPERATURA, PRESSIONE E UMIDITA' 
+
+            'Dim myWebClient As New WebClient()
+            Dim data, data2 As String
+            Dim ok1, ok2 As Boolean
+
+            data = ""
+            data2 = ""
+
+            If LeggiBarometroTCP(48, data, data2) Then
+                p_temperatura = (CDbl(data) / 10)
+                p_umidità = (CDbl(data2) / 10)
+                ok1 = True
+            Else
+                p_temperatura = 0
+                p_umidità = 0
+                ok1 = False
+            End If
+
+            data = ""
+            data2 = ""
+            If LeggiBarometroTCP(50, data, data2) Then
+                p_pressione = (CDbl(data2) * 10)
+                ok2 = True
+            Else
+                p_pressione = 0
+                ok2 = False
+            End If
+
+            Return ok1 AndAlso ok2
+
+        End Function
+
+        Public Function termina() As Boolean
+            Try
+                dispositivo.Close()
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore di chiusura stazione barometrica")
+                Return False
+            End Try
+        End Function
+
+    End Class
+
+    Public Class c_wattmetro
+        'WATTMETRO INFRATEK 101A via porta seriale
+
+        Private porta As SerialPort
+        Private p_tensione, p_corrente, p_potenza, p_cosphi As Double
+
+        Public Function inizializza(ByVal nome_porta As String) As Boolean
+            ' create a new SerialPort object with default settings.
+
+            Me.porta = New SerialPort()
+
+            ' set the appropriate properties
+            porta.PortName = nome_porta
+            porta.BaudRate = 9600
+            porta.Parity = Parity.None
+            porta.StopBits = StopBits.One
+            porta.DataBits = 8
+            porta.ReadTimeout = 500
+            porta.WriteTimeout = 300
+            porta.NewLine = Chr(13) & Chr(10) 'CR+LF
+
+            'porta.NewLine = Chr(13) 'CR
+
+            Try
+                porta.DtrEnable = True ' SENZA QUESTA RIGA CONTINUEREBBE AD ANDARE IN ERRORE!!!!!
+
+                porta.Open()
+                'porta.Write("*TST?")
+            Catch ex As Exception
+                Form1.PopolaDB_error("wattmetro: " & ex.Message)
+                Return False
+            End Try
+
+            'inizializzazioni
+
+            Try
+                porta.WriteLine("ACQ:SYNC VOLT") ' imposto la sincronizzazione della misura sulla tensione
+                Threading.Thread.Sleep(200) 'ritardo
+                porta.WriteLine("ACQ:APER 1") ' imposto il tempo di acquisizione su 1 secondo
+                Threading.Thread.Sleep(200) 'ritardo
+                porta.WriteLine("CURR:RMS 0") ' imposto il campo in alto a sinistra del display con la corrente rms accoppiata DC
+                Threading.Thread.Sleep(200) 'ritardo
+                porta.WriteLine("VOLT:RMS 1") ' imposto il campo in alto a destra del display con la tensione rms accoppiata DC
+                Threading.Thread.Sleep(200) 'ritardo
+                porta.WriteLine("POW:ACT 2") ' imposto il campo in mezzo a sinistra del display con la potenza attiva accoppiata DC
+                Threading.Thread.Sleep(200) 'ritardo
+                porta.WriteLine("POW:APP 5") ' imposto il campo in basso a destra del display con la potenza apparente
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore inizializzazione wattmetro")
+                Return False
+            End Try
+
+        End Function
+
+        Public Function tensione_V(ByRef Ok_lettura As Boolean) As Double
+            Dim stringa_risposta As String
+            Dim sottostringhe_risposta As String()
+            Dim tensione_grezza As Double
+
+            porta.WriteLine("VOLT:RMS?")
+
+            Try
+
+                stringa_risposta = porta.ReadLine()
+
+                sottostringhe_risposta = stringa_risposta.Split(CChar("e"))
+                sottostringhe_risposta(0) = sottostringhe_risposta(0).Replace(Chr(46), Chr(44)) 'sostituisco il punto con la virgola
+                tensione_grezza = CType(sottostringhe_risposta(0), Double) * 10 ^ CType(sottostringhe_risposta(1), Double)
+                Ok_lettura = True
+                Return Round(tensione_grezza, 1) 'arrotondo alla prima cifra decimale (decimi di V)
+
+            Catch ex As Exception
+                porta.DiscardInBuffer()
+                porta.DiscardOutBuffer()
+                Form1.PopolaDB_error("wattmetro: " & ex.Message)
+                Ok_lettura = False
+                Return 0
+            End Try
+
+
+
+        End Function
+
+        Public Function corrente_A(ByRef Ok_lettura As Boolean) As Double
+            Dim stringa_risposta As String
+            Dim sottostringhe_risposta As String()
+            Dim corrente_grezza As Double
+
+            porta.WriteLine("CURR:RMS?")
+
+            Try
+                stringa_risposta = porta.ReadLine()
+
+                sottostringhe_risposta = stringa_risposta.Split(CChar("e"))
+                sottostringhe_risposta(0) = sottostringhe_risposta(0).Replace(Chr(46), Chr(44)) 'sostituisco il punto con la virgola
+                corrente_grezza = CType(sottostringhe_risposta(0), Double) * 10 ^ CType(sottostringhe_risposta(1), Double)
+                Ok_lettura = True
+                Return Round(corrente_grezza, 3) 'arrotondo alla terza cifra decimale (mA)
+            Catch ex As Exception
+                porta.DiscardInBuffer()
+                porta.DiscardOutBuffer()
+                Form1.PopolaDB_error("wattmetro: " & ex.Message)
+                Ok_lettura = False
+                Return 0
+            End Try
+
+
+
+        End Function
+
+        Public Function potenza_W(ByRef Ok_lettura As Boolean) As Double
+            Dim stringa_risposta As String
+            Dim sottostringhe_risposta As String()
+            Dim potenza_grezza As Double
+
+            porta.WriteLine("POW:ACT?")
+
+            Try
+
+                stringa_risposta = porta.ReadLine()
+
+                sottostringhe_risposta = stringa_risposta.Split(CChar("e"))
+                sottostringhe_risposta(0) = sottostringhe_risposta(0).Replace(Chr(46), Chr(44)) 'sostituisco il punto con la virgola
+                potenza_grezza = CType(sottostringhe_risposta(0), Double) * 10 ^ CType(sottostringhe_risposta(1), Double)
+                Ok_lettura = True
+                Return Round(potenza_grezza, 1) 'arrotondo alla seconda cifra decimale (centesimi di W)
+            Catch ex As Exception
+                porta.DiscardInBuffer()
+                porta.DiscardOutBuffer()
+                Form1.PopolaDB_error("wattmetro: " & ex.Message)
+                Ok_lettura = False
+                Return 0
+            End Try
+
+
+
+        End Function
+
+        Public Function cosphi(ByRef Ok_lettura As Boolean) As Double
+            Dim stringa_risposta As String
+            Dim sottostringhe_risposta As String()
+            Dim cosphi_grezzo As Double
+
+            porta.WriteLine("POW:FAC?")
+
+            Try
+
+                stringa_risposta = porta.ReadLine()
+
+                sottostringhe_risposta = stringa_risposta.Split(CChar("e"))
+                sottostringhe_risposta(0) = sottostringhe_risposta(0).Replace(Chr(46), Chr(44)) 'sostituisco il punto con la virgola
+                cosphi_grezzo = CType(sottostringhe_risposta(0), Double) * 10 ^ CType(sottostringhe_risposta(1), Double)
+                Ok_lettura = True
+                Return CType(Round(cosphi_grezzo * 1000), Double) / 1000 'arrotondo alla terza cifra decimale
+            Catch ex As Exception
+                porta.DiscardInBuffer()
+                porta.DiscardOutBuffer()
+
+                Form1.PopolaDB_error("wattmetro: " & ex.Message)
+                Ok_lettura = False
+                Return 0
+            End Try
+
+        End Function
+
+        Public Function termina() As Boolean
+            Try
+                If porta.IsOpen Then
+                    porta.DtrEnable = False
+                    porta.Close()
+
+                End If
+
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("wattmetro: " & ex.Message)
+                Return False
+            End Try
+
+        End Function
+
+    End Class
+
+    Public Class c_multimetro
+        Private porta As SerialPort
+
+        Public Function inizializza(ByVal nome_porta As String) As Boolean
+            ' create a new SerialPort object with default settings.
+
+            Me.porta = New SerialPort()
+
+            ' set the appropriate properties
+            porta.PortName = nome_porta
+            porta.BaudRate = 9600
+            porta.Parity = Parity.None
+            porta.StopBits = StopBits.One
+            porta.DataBits = 8
+            porta.ReadTimeout = 500
+            porta.WriteTimeout = 300
+            porta.NewLine = Chr(13) & Chr(10)
+
+            Try
+                'open the port
+                porta.Open()
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore apertura porta seriale multimetro")
+                Return False
+            End Try
+        End Function
+
+        Public Function imposta_lettura_OHM() As Boolean
+            Try
+                porta.WriteLine("OHMS")
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore impostazione multimetro")
+                Return False
+            End Try
+
+        End Function
+
+        Public Function imposta_lettura_IDC() As Boolean
+            Try
+                porta.WriteLine("IDC")
+                Return True
+
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore impostazione multimetro")
+                Return False
+            End Try
+
+        End Function
+
+        Public Function valore_letto(ByVal n_cifre_decimali As Integer) As Double
+            Dim stringa_risposta As String
+            Dim valore_grezzo, mantissa As Double
+            Dim esponente As Integer
+            Dim sottostringhe_risposta As String()
+
+            porta.WriteLine("READ?")
+            
+            Try
+                stringa_risposta = porta.ReadLine()
+                sottostringhe_risposta = stringa_risposta.Split(CChar("e"))
+                sottostringhe_risposta(0) = sottostringhe_risposta(0).Replace(Chr(46), Chr(44)) 'sostituisco il punto con la virgola
+
+                If sottostringhe_risposta(0)(1) <> "O" Then ' SE LA MISURA NON E' OVERLOAD
+                    mantissa = CType(sottostringhe_risposta(0).TrimStart(CChar(" ")), Double) 'rimuovo lo spazio iniziale e converto in numero la mantissa
+                    esponente = CType(sottostringhe_risposta(1).Split(CChar(" "))(0), Integer) 'rimuovo i caratteri dopo lo spazio e converto in numero l'esponente
+                    valore_grezzo = mantissa * 10 ^ esponente
+                    Return Round(valore_grezzo, n_cifre_decimali) 'l'arrotondamento è specificato dal chiamante
+                Else
+                    'OVERLOAD
+                    Return 0
+                End If
+
+
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore lettura dati wattmetro")
+                Return 0
+
+            End Try
+
+
+
+        End Function
+
+        Public Function termina() As Boolean
+            Try
+                If porta.IsOpen Then porta.Close()
+                Return True
+
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore chiusura porta seriale multimetro")
+                Return False
+            End Try
+
+        End Function
+
+    End Class
+
+    Public Class c_trasmettitore_pressione
+        'Furness Controls FCO332
+
+        Private porta As SerialPort
+
+        Public Function inizializza(ByVal nome_porta As String) As Boolean
+            ' create a new SerialPort object with default settings.
+
+            porta = New SerialPort()
+
+            ' set the appropriate properties
+            porta.PortName = nome_porta
+            porta.BaudRate = 2400
+            porta.Parity = Parity.None
+            porta.StopBits = StopBits.One
+            porta.DataBits = 8
+            porta.ReadTimeout = 300
+            porta.WriteTimeout = 300
+
+            porta.NewLine = Chr(13)
+
+            Try
+                'open the port
+                porta.Open()
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                Return False
+            End Try
+        End Function
+
+        Public Function azzera() As Boolean
+
+            Dim stringa_risposta As String
+            porta.WriteLine("!Z")
+
+            porta.DtrEnable = True
+
+            Try
+                stringa_risposta = porta.ReadLine() 'il trasmettitore ripete il mio comando
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                Return False
+            End Try
+
+            porta.DtrEnable = False
+
+        End Function
+
+        Public Function pressione_Pa(ByRef OK_lettura As Boolean) As Double
+
+            'LETTURA PRESSIONE PA FURNESS CONTROL MODELLO FCO332 SU PORTA SERIALE
+
+            Dim StringR1, StringR3 As String
+            Dim StringR2(20), Dato(20) As Char
+            Dim Num As Double
+            Dim i As Integer
+
+            i = 0
+            Num = 0
+            StringR1 = ""
+            StringR2 = CType("                    ", Char())
+            StringR3 = "                    "
+            Dato = CType("                    ", Char())
+
+            porta.WriteLine("!L")
+            porta.DtrEnable = True
+
+            Try
+                'il trasmettitore ripete il mio comando "!L" + il carattere 13 (newline).
+                'metto questi dati in stringa1
+                'non uso readline perché a volte in questa prima stringa i caratteri sono sbagliati
+
+                'porta.Read(StringR1, 0, 3)
+                StringR1 = porta.ReadLine()
+            Catch ex As Exception
+                porta.DiscardInBuffer()
+                Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                OK_lettura = False
+                Return 0
+            End Try
+
+            Select Case StringR1.Length
+
+                Case 2
+                    Try
+                        StringR2 = CType(porta.ReadLine(), Char())
+                    Catch ex As Exception
+                        porta.DiscardInBuffer()
+                        Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                        OK_lettura = False
+                        Return 0
+                    End Try
+                    porta.DtrEnable = False
+
+                Case Else
+                    ' quando la risposta 1 è errata, vengono lette entrambe le risposte insieme.
+                    ' eliminando i primi 3 caratteri ottengo comunque la lettura corretta
+                    Try
+                        StringR2 = CType(StringR1.Remove(0, 3), Char())
+                    Catch ex As Exception
+                        porta.DiscardInBuffer()
+                        Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                        OK_lettura = False
+                        Return 0
+                    End Try
+            End Select
+
+            Try
+                If (StringR2(0) <> "+") Then
+                    Do Until (StringR2(i) = " ")
+                        If (StringR2(i) = ".") Then
+                            Dato(i) = CChar(",")
+                        Else : Dato(i) = StringR2(i)
+                        End If
+                        i = i + 1
+                    Loop
+
+                    If (StringR2(0) = "+") Then ' fondo scala
+                        StringR3 = "500"
+                    Else
+                        StringR3 = Dato
+                    End If
+                    Num = CDbl(StringR3)
+                End If
+            Catch ex As Exception
+                Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                OK_lettura = False
+                Return 0
+            End Try
+
+            
+
+            OK_lettura = True
+            Return Num
+
+        End Function
+
+        Public Function termina() As Boolean
+            Try
+                porta.Close()
+                Return True
+            Catch ex As Exception
+
+                Form1.PopolaDB_error(ex.Message & " " & porta.PortName)
+                Return False
+            End Try
+
+        End Function
+    End Class
+
+    Public Class c_esam_e2002
+        'analizzatore di rete ESAM E2002
+
+        Private porta As SerialPort
+
+        Public Function inizializza(ByVal nome_porta As String) As Boolean
+            ' create a new SerialPort object with default settings.
+
+            Me.porta = New SerialPort()
+
+            ' set the appropriate properties
+            porta.PortName = nome_porta
+            porta.BaudRate = 19200
+            porta.Parity = Parity.None
+            porta.StopBits = StopBits.One
+            porta.DataBits = 8
+            porta.ReadTimeout = 500
+            porta.WriteTimeout = 500
+
+            Try
+                'open the port
+                porta.Open()
+                Return True
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore apertura porta seriale")
+                Return False
+            End Try
+        End Function
+
+        Function leggi_valore(ByVal stringa_richiesta As Byte(), ByVal precisione As Integer, ByRef Ok_lettura As Boolean) As Single
+            Dim stringa_risposta, stringa_valore As Byte()
+
+            'inizializzo la stringa risposta di 9 bytes
+            stringa_risposta = {&H0, &H0, &H0, &H0, &H0, &H0, &H0, &H0, &H0}
+
+            Try
+                porta.Write(stringa_richiesta, 0, 8)
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore scrittura su porta seriale")
+            End Try
+
+            Threading.Thread.Sleep(100)
+
+            Try
+                porta.Read(stringa_risposta, 0, 9)
+
+                If stringa_risposta(0) = 1 Then 'se la stringa di risposta inizia per 01 andiamo bene
+
+                    'i byte che contengono la lettura sono il 4°, 5°, 6°, 7°
+                    'l'ESAM E2002 di default fornisce prima i 2 MSB, poi i 2LSB
+                    'nella variabile stringa_valore voglio metterli nell'ordine MSB --> LSB
+                    stringa_valore = {stringa_risposta(3), stringa_risposta(4), stringa_risposta(5), stringa_risposta(6)}
+
+                    'preparo l'array per la funzione bitconverter, che vuole i byte in ordine LSB --> MSB
+                    Array.Reverse(stringa_valore)
+                    Return CSng(Round(CDbl(BitConverter.ToSingle(stringa_valore, 0)), precisione))
+                    Ok_lettura = True
+                    Form1.PopolaDB_error("NO ERROR")
+
+                Else 'altrimenti c'è qualcosa che non va
+                    porta.DiscardInBuffer()
+                    Ok_lettura = False
+                    Return 0
+                End If
+
+
+            Catch ex As Exception
+                Form1.PopolaDB_error("Errore risposta da sensore")
+                porta.DiscardInBuffer()
+                Ok_lettura = False
+                Return 0
+
+            End Try
+
+        End Function
+
+        Public Function tensione(ByRef Ok_lettura As Boolean) As Single
+
+            Dim stringa_richiesta As Byte()
+
+            'indirizzo sensore: 1
+            'comando 03 (read holding registers)
+            'registri 0124 e 0125 insieme contengono la tensione V1 in formato float32 (single)
+            'ESAM E2002 con swap bytes su "no swap" (DEFAULT)
+
+            'la stringa da inviare è di 8 bytes
+            ' 01 03 00 7B 00 02 B4 12 
+            stringa_richiesta = {&H1, &H3, &H0, &H7B, &H0, &H2, &HB4, &H12}
+
+            Return leggi_valore(stringa_richiesta, 1, Ok_lettura)
+
+        End Function
+
+        Public Function corrente(ByRef Ok_lettura As Boolean) As Single
+
+            Dim stringa_richiesta As Byte()
+
+            'indirizzo sensore: 1
+            'comando 03 (read holding registers)
+            'registri 0108 e 0109 insieme contengono la corrente I1 in formato float32 (single)
+            'ESAM E2002 con swap bytes su "no swap" (DEFAULT)
+
+            'la stringa da inviare è di 8 bytes
+            ' 01 03 00 6B 00 02 B5 D7
+            stringa_richiesta = {&H1, &H3, &H0, &H6B, &H0, &H2, &HB5, &HD7}
+
+            Return leggi_valore(stringa_richiesta, 3, Ok_lettura)
+
+        End Function
+
+        Public Function potenza(ByRef Ok_lettura As Boolean) As Single
+
+            Dim stringa_richiesta As Byte()
+
+            'indirizzo sensore: 1
+            'comando 03 (read holding registers)
+            'registri 0130 e 0131 insieme contengono la potenza P1 in formato float32 (single)
+            'ESAM E2002 con swap bytes su "no swap" (DEFAULT)
+
+            'la stringa da inviare è di 8 bytes
+            ' 01 03 00 81 00 02 94 23 
+            stringa_richiesta = {&H1, &H3, &H0, &H81, &H0, &H2, &H94, &H23}
+
+            Return leggi_valore(stringa_richiesta, 1, Ok_lettura)
+
+        End Function
+
+        Public Function cosPhi(ByRef Ok_lettura As Boolean) As Single
+
+            Dim stringa_richiesta As Byte()
+
+            'indirizzo sensore: 1
+            'comando 03 (read holding registers)
+            'registri 0142 e 0143 insieme contengono la potenza P1 in formato float32 (single)
+            'ESAM E2002 con swap bytes su "no swap" (DEFAULT)
+
+            'la stringa da inviare è di 8 bytes
+            ' 01 03 00 8D 00 02 54 20 
+            stringa_richiesta = {&H1, &H3, &H0, &H8D, &H0, &H2, &H54, &H20}
+
+            Return leggi_valore(stringa_richiesta, 2, Ok_lettura)
+
+        End Function
+
+        Public Function termina() As Boolean
+            Try
+                porta.Close()
+                Return True
+            Catch ex As Exception
+
+                Form1.PopolaDB_error("Errore chiusura porta seriale")
+                Return False
+            End Try
+
+        End Function
+
+    End Class
+
+End Class

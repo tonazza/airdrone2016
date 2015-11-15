@@ -1,0 +1,101 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+CameraAeraulica
+</name>
+</assembly>
+<members>
+<member name="P:Camera_Aeraulica.My.Resources.Resources.ResourceManager">
+	<summary>
+  Restituisce l'istanza di ResourceManager nella cache utilizzata da questa classe.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.Culture">
+	<summary>
+  Esegue l'override della proprietà CurrentUICulture del thread corrente per tutte le
+  ricerche di risorse eseguite utilizzando questa classe di risorse fortemente tipizzata.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.aspirazione">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.camera">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.fotocamera">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.freccia_alto">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.freccia_basso">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.impostazioni_strumenti_default">
+	<summary>
+  Cerca una stringa localizzata simile a 192	168	0	2	COM3	COM4	COM10	COM6	COM8	L:\Prove.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.ingranaggi">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.logo_aerauliqa">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.mandata">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.parete_ugelli_rev03">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.report">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.strumenti">
+	<summary>
+  Cerca una stringa localizzata simile a Option Explicit On
+Option Strict On
+
+Imports System.IO.Ports
+Imports System.Net.Sockets
+Imports System.Math
+
+Public Class strumenti
+
+
+    Public Class c_tachimetro
+        'TACHIMETRO RPM CARLO GAVAZZI UDM40
+
+        Private porta As SerialPort
+
+        Public Function inizializza(ByVal nome_porta As String) As Boolean
+            ' create a new SerialPort object with default settings.
+
+            Me.porta = New SerialPort()
+
+            ' set the appropriate properties
+            por [stringa troncata]";.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.ugello_aperto">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="P:Camera_Aeraulica.My.Resources.Resources.ugello_chiuso">
+	<summary>
+  Cerca una risorsa localizzata di tipo System.Drawing.Bitmap.
+</summary>
+</member><member name="T:Camera_Aeraulica.My.Resources.Resources">
+	<summary>
+  Classe di risorse fortemente tipizzata per la ricerca di stringhe localizzate e così via.
+</summary>
+</member>
+</members>
+</doc>
