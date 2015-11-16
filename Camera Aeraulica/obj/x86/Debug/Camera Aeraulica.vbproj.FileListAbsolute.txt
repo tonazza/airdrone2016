@@ -98,3 +98,8 @@ L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraul
 L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
 L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
 L:\bancoprove\camera di prova REV03\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb
+L:\bancoprove\airdrone2016\Camera Aeraulica\bin\Debug\Camera Aeraulica.exe.config
+L:\bancoprove\airdrone2016\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.vbproj.ResolveComReference.cache
+L:\bancoprove\airdrone2016\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.exe
+L:\bancoprove\airdrone2016\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.xml
+L:\bancoprove\airdrone2016\Camera Aeraulica\obj\x86\Debug\Camera Aeraulica.pdb

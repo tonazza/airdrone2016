@@ -17,6 +17,7 @@ Public Class Form1
     '***************************************************************************************************************
     '----------------------------- INIZIO DICHIARAZIONI VARIABILI GLOBALI ------------------------------------------
     '***************************************************************************************************************
+    '20151115   versione iniziale caricata su Github
 
     'serve per verificare la durata dei processi
     Public sw As New Stopwatch
